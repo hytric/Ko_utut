@@ -1,5 +1,6 @@
 # [프로젝트] Korean Audio, Multilingual Hubert translate Training Guideline
 
+![Slide10.jpg](/image/Slide10.jpg)
 
 최근 Audio2Audio multilingual translate에서 hubert를 활용한 direct translation이 제안되었다.
 
@@ -12,8 +13,6 @@
 그래서 한글도 같이 지원하도록 모델을 학습하는 것이 목표이다.
 
 현재 Training code가 제공되지 않기 때문에, 자세한 가이드라인도 같이 제공하고자 한다.
-
-![Slide10.jpg](/image/Slide10.jpg)
 
 
 **fairseq를 기반으로 코드 작성**
