@@ -1,26 +1,33 @@
-# [프로젝트] Korean Audio, Multilingual Hubert translate Training Guideline
+# [Project] Korean Audio, Multilingual HuBERT Translation Training Guideline
 
 ![Slide10.jpg](/image/Slide10.jpg)
 
-최근 Audio2Audio multilingual translate에서 hubert를 활용한 direct translation이 제안되었다.
+Recent advancements in multilingual Audio-to-Audio translation propose the use of HuBERT for direct translation.
 
-[Textless Unit-to-Unit training for Many-to-Many Multilingual Speech-to-Speech Translation](https://arxiv.org/abs/2308.01831)  
-[AV2AV: Direct Audio-Visual Speech to Audio-Visual Speech Translation with Unified Audio-Visual Speech Representation](https://arxiv.org/abs/2312.02512)
+- [Textless Unit-to-Unit training for Many-to-Many Multilingual Speech-to-Speech Translation](https://arxiv.org/abs/2308.01831)  
+- [AV2AV: Direct Audio-Visual Speech to Audio-Visual Speech Translation with Unified Audio-Visual Speech Representation](https://arxiv.org/abs/2312.02512)
 
+These studies support a variety of languages, but **Korean is not included**.
 
-논문에서는 다양한 언어를 지원하지만, 한국어를 지원하지는 않는다.
+The goal of this project is to **train a model that supports Korean translation** alongside other languages.
 
-그래서 한글도 같이 지원하도록 모델을 학습하는 것이 목표이다.
+Since training code is not currently provided, this guide offers a **detailed step-by-step guideline**.
 
-현재 Training code가 제공되지 않기 때문에, 자세한 가이드라인도 같이 제공하고자 한다.
+### **Framework:**
+- Code is implemented based on **Fairseq**.
 
+---
 
-**fairseq를 기반으로 코드 작성**
- 
-<br>
+## **Dataset**
 
-## Dataset
+### 1. [Multilingual Speech Translation Dataset](https://aihub.or.kr/aihubdata/data/view.do?dataSetSn=71524)
+- A collection of multilingual read speech datasets designed for translation tasks.
 
-[다국어 통번역 낭독체 데이터](https://aihub.or.kr/aihubdata/data/view.do?dataSetSn=71524)
+### 2. [Professional Korean-English Translation Dataset for International Conferences](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=71693)
+- Specialized datasets designed for professional Korean-English and English-Korean translation tasks.
 
-[국제 학술대회용 전문분야 한영/영한 통번역 데이터](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=71693)
+These datasets serve as the foundation for training multilingual HuBERT models with Korean language support.
+
+---
+
+Stay tuned for the detailed training pipeline and setup instructions!

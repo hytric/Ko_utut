@@ -1,29 +1,29 @@
-## Transformer 학습을 위한  Data preprocessing
+# Transformer Data Preprocessing and Training Guide
 
+## **1. HuBERT Inference**
 
-1. **Hubert inference 돌리기**
+Convert a multilingual dataset into units using a pre-trained HuBERT model.
 
-이전에 학습된 Hubert 모델을 가지고 Multilingual dataset을 Unit으로 변경
+Place the following files into the `fairseq` folder:
+- `inference.py`
+- `util.py`
 
-`inference.py`
-`util.py`
-
-위 2개 파일 fairseq 폴더에 넣기
+Run the inference script:
 
 ```bash
 cd fairseq
 python inference.py \
-	--in-wav-path <wav파일경로> \
-	--out-unit-path <unit출력저장경로> \
-	--mhubert-path <모델파라미터경로> \
-	--kmeans-path <k-means파일경로>
+    --in-wav-path <wav-file-path> \
+    --out-unit-path <unit-output-path> \
+    --mhubert-path <model-parameter-path> \
+    --kmeans-path <k-means-file-path>
 ```
 
-<br>
+---
 
-2. **데이터 파일 안에 내용 txt 파일로 저장**
+## **2. Save Unit File Paths to Text Files**
 
-파일이 해당 Unit 데이터를 쉽게 찾을 수 있도록 함
+Create text files listing `.unit` files for each language.
 
 ```bash
 find /units/en/ -maxdepth 1 -name '*.unit' | sort > en_files.txt
@@ -31,13 +31,13 @@ find /units/es/ -maxdepth 1 -name '*.unit' | sort > es_files.txt
 find /units/fr/ -maxdepth 1 -name '*.unit' | sort > fr_files.txt
 ```
 
-<br>
+---
 
-3. **TR 학습 데이터 준비**
+## **3. Prepare Transformer Training Data**
 
-각 언어 쌍에 대해 학습 및 검증 데이터를 생성, Fairseq에서 요구하는 형식으로 준비
+Organize dataset files into the following structure:
 
-```bash
+```
 dataset/
 └── units/
     ├── en/
@@ -45,45 +45,47 @@ dataset/
     └── fr/
 ```
 
-다음과 같이 파일 구조를 만들기
+Use the following scripts for data preparation:
+- `unit_txt_gen.py`
+- `unit_TR_preprocessing.py`
 
-`unit_txt_gen.py`
-`unit_TR_preprocessing.py`
+Ensure the number of files for each language matches (**parallel corpus**).
 
-각 언어의 파일 수가 동일한지 확인 → ***parallel corpus*** 맞추기
+### **Command-line Arguments for Preprocessing Script**
 
-학습과 검증 데이터로 데이터를 분할. 일반적으로 90%를 학습용으로, 10%를 검증용으로 사용
-
-```bash
-# 명령행 인자 파서 설정
-parser = argparse.ArgumentParser(description='다국어 데이터 준비 스크립트')
+```python
+parser = argparse.ArgumentParser(description='Multilingual Data Preparation Script')
 parser.add_argument('--base_dir', type=str, default='/home/jskim/audio/dataset/units',
-                    help='입력 데이터의 기본 디렉토리 경로')
+                    help='Input data directory path')
 parser.add_argument('--output_base_dir', type=str, default='/home/jskim/audio/dataset/units',
-                    help='출력 데이터가 저장될 기본 디렉토리 경로')
+                    help='Output data directory path')
 parser.add_argument('--languages', type=str, nargs='+', default=['en', 'es', 'fr'],
-                    help='처리할 언어 목록 (예: en es fr)')
+                    help='List of languages to process (e.g., en es fr)')
 parser.add_argument('--train_ratio', type=float, default=0.9,
-                    help='학습 데이터 비율 (0과 1 사이의 실수)')
+                    help='Training data ratio (0.0 to 1.0)')
 parser.add_argument('--random_seed', type=int, default=42,
-                    help='랜덤 시드 값')
+                    help='Random seed value')
 args = parser.parse_args()
 ```
 
-다음 코드로 동일한 ***parallel corpus*** 를 찾을 수 있도록 해야함
+Ensure files match this pattern:
 
 ```bash
 filename_pattern = re.compile(r'(.+)_([a-z]{2})_(\d+)\.unit$')
-``` 
-파일에 맞는 패턴을 입력
+```
 
-위 파일 실행 했을 때 4개 txt 파일이 나와야함
+### **Expected Output Files**
+After running the script, you should have:
+- `train.src`
+- `train.tgt`
+- `valid.src`
+- `valid.tgt`
 
-train.src, train.tgt, valid.src, valid.tgt
+---
 
-<br>
+## **4. Fairseq Data Preprocessing**
 
-4. fairseq Data Preprocessing
+Convert data into Fairseq-compatible format:
 
 ```bash
 fairseq-preprocess \
@@ -97,15 +99,13 @@ fairseq-preprocess \
   --dataset-impl 'mmap'
 ```
 
-위 코드를 통해 실제 TR에 들어가는 data 구조 완성 
+- A single multilingual HuBERT model uses **one dictionary file (`dict.txt`)**.
 
-dict 파일도 같이 들어감
+---
 
-여기에서는 하나의 multilingual Hubert가 들어가기 때문에 1개의 dict만 필요함
+## **5. Transformer Training**
 
-<br>
-
-## Trasformer Training code
+Run Fairseq training with the following command:
 
 ```bash
 fairseq-train '/shared/home/milab/users/jskim/multilingual' \
@@ -119,8 +119,8 @@ fairseq-train '/shared/home/milab/users/jskim/multilingual' \
   --decoder-attention-heads 8 \
   --encoder-ffn-embed-dim 2048 \
   --decoder-ffn-embed-dim 2048 \
-  --max-tokens 24000 \ 
-  --update-freq 2 \     
+  --max-tokens 24000 \
+  --update-freq 2 \
   --optimizer adam \
   --adam-betas '(0.9, 0.98)' \
   --lr 5e-4 \
@@ -138,4 +138,17 @@ fairseq-train '/shared/home/milab/users/jskim/multilingual' \
   --max-target-positions 3000 \
   --amp
 ```
- 
+
+### **Parameter Explanation:**
+- **`--arch`:** Transformer model architecture.
+- **`--max-tokens`:** Maximum number of tokens per batch.
+- **`--optimizer`:** Optimization algorithm.
+- **`--lr`:** Learning rate.
+- **`--warmup-updates`:** Number of warmup steps.
+- **`--save-dir`:** Directory to save model checkpoints.
+- **`--tensorboard-logdir`:** Directory for TensorBoard logs.
+- **`--amp`:** Enable Automatic Mixed Precision for better GPU utilization.
+
+---
+
+Your Transformer training pipeline is now ready. Adjust parameters if needed for optimal results!
