@@ -1,5 +1,10 @@
-## Vocoder
+# Vocoder
 
+## vocoder config
+
+[[Ko config link](https://drive.google.com/file/d/1rEnXZzrJJnrJmumDpBF67vQBAksadaFD/view?usp=sharing)], [[En config link](https://drive.google.com/file/d/1xVc6SNmicGRGEN15eQMOD64k4yiJ1cH_/view?usp=sharing)]
+
+## How to Use
 
 https://github.com/facebookresearch/speech-resynthesis
 
@@ -145,3 +150,22 @@ python examples/speech_to_speech_translation/train.py \
 
 
 5. **Inference**
+
+```bash
+python -m examples.speech_to_speech_translation.inference \
+    --checkpoint_file /home/jhkim/audio/unit2audio/speech-resynthesis/checkpoints/ko_hubert_vocoder_4th \
+    -n 20 \
+    --output_dir generations \
+    --num-gpu 1 \
+    --input_code_file /speech-resynthesis/val_ko_manifest_4th.json \
+    --dur-prediction
+    
+    
+python -m examples.speech_to_speech_translation.inference \
+    --checkpoint_file /home/jhkim/audio/unit2audio/speech-resynthesis/checkpoints/ko_hubert_vocoder \
+    -n 10 \
+    --output_dir generations \
+    --num-gpu 1 \
+    --input_code_file /speech-resynthesis/split_ko_manifests/val_manifest.json \
+    --dur-prediction
+```

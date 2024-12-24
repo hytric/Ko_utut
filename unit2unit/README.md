@@ -26,9 +26,9 @@ python inference.py \
 파일이 해당 Unit 데이터를 쉽게 찾을 수 있도록 함
 
 ```bash
-find /home/jskim/audio/dataset/units/en/ -maxdepth 1 -name '*.unit' | sort > en_files.txt
-find /home/jskim/audio/dataset/units/es/ -maxdepth 1 -name '*.unit' | sort > es_files.txt
-find /home/jskim/audio/dataset/units/fr/ -maxdepth 1 -name '*.unit' | sort > fr_files.txt
+find /units/en/ -maxdepth 1 -name '*.unit' | sort > en_files.txt
+find /units/es/ -maxdepth 1 -name '*.unit' | sort > es_files.txt
+find /units/fr/ -maxdepth 1 -name '*.unit' | sort > fr_files.txt
 ```
 
 <br>

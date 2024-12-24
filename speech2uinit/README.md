@@ -1,5 +1,24 @@
 
-## Hubert preprocessing
+# Hubert preprocessing
+
+## KoEn Hubert Pretrained model
+[[Hubert model link](https://drive.google.com/file/d/1w9fNZ1-Np1RurPKUtjYXJRtTBpVvcWrp/view?usp=sharing)] , 
+[[KM file link](https://drive.google.com/file/d/1huzDxhoMlRFiZOxmC8lTkUp-jB3CpM1r/view?usp=sharing)]
+
+
+## Hubert Spec
+
+Parameters
+1st Iter: K=100, 250K Steps 2nd, 3rd Iter: K=500, 400K Steps Adam Optimizer
+Mask Prob: 0.5 Dropout: 0.3
+Learning Rate: 0.001 Warmup: 10000
+
+1. HuBERT를 통해 Waveform에서 MFCC 음성 Feature 추출
+2. K-means를 이용하여 Feature를 Clustering -> Quantization
+3. 데이터의 각 Frame을 특정 Unit에 배정 -> Pseudo-labeling
+
+
+## Preprocess
 
 
 wave2vec manifest → mmfc → sample kmean
