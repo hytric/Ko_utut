@@ -1,3 +1,6 @@
 [submodule "fairseq"]
 	path = fairseq
 	url = https://github.com/facebookresearch/fairseq.git
+[submodule "unit2speech/speech-resynthesis"]
+	path = unit2speech/speech-resynthesis
+	url = https://github.com/facebookresearch/speech-resynthesis.git
