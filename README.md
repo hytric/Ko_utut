@@ -11,7 +11,7 @@ These studies support a variety of languages, but **Korean is not included**.
 
 The goal of this project is to **train a model that supports Korean translation** alongside other languages.
 
-Since training code is not currently provided, this guide offers a **detailed step-by-step guideline**.
+Since training code is currently not provided, this guide offers a **detailed step-by-step guideline**.
 
 ### **Framework:**
 - Code is implemented based on **Fairseq**.
