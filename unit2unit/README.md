@@ -3,41 +3,37 @@
 ## **Model Specification**
 
 ### Architecture
-- ResBlock: 1
-- Upsample Rates: [5,4,4,2,2]
-- Upsample Kernel Sizes: [11,8,8,4,4]
-- Initial Channel: 512
-- ResBlock Kernel Sizes: [3,7,11]
-- ResBlock Dilation Sizes: [[1,3,5], [1,3,5], [1,3,5]]
-
-### Embedding
-- Number of Embeddings: 100
-- Embedding Dimension: 128
-- Model Input Dimension: 128
-
-### Audio Parameters
-- Segment Size: 8960
-- Code Hop Size: 320
-- Sampling Rate: 16000 Hz
-- FFT Size: 1024
-- Hop Size: 256
-- Window Size: 1024
-- Frequency Range: 0-8000 Hz
-- Number of Mel Bands: 80
+- Model Type: Transformer
+- Encoder Layers: 12
+- Decoder Layers: 12
+- Encoder Embedding Dimension: 512
+- Decoder Embedding Dimension: 512
+- Encoder Attention Heads: 8
+- Decoder Attention Heads: 8
+- Encoder FFN Dimension: 2048
+- Decoder FFN Dimension: 2048
+- Max Source Positions: 3000
+- Max Target Positions: 3000
 
 ### Training Parameters
-- Batch Size: 16
-- Learning Rate: 0.0002
-- Adam Beta1: 0.8
-- Adam Beta2: 0.99
-- Learning Rate Decay: 0.999
-- Duration Prediction Weight: 1.0
+- Max Tokens per Batch: 24000
+- Update Frequency: 2
+- Optimizer: Adam
+- Adam Betas: (0.9, 0.98)
+- Learning Rate: 5e-4
+- Learning Rate Scheduler: inverse_sqrt
+- Warmup Updates: 4000
+- Dropout: 0.3
+- Weight Decay: 0.0001
+- Label Smoothing: 0.1
+- Max Epochs: 50
+- Patience: 10
+- Mixed Precision: Enabled (AMP)
 
-### Duration Predictor
-- Encoder Embedding Dimension: 128
-- Hidden Dimension: 128
-- Kernel Size: 3
-- Dropout Rate: 0.5
+### Model Features
+- Shared Decoder Input-Output Embedding
+- Joined Dictionary for Multilingual Training
+- Label Smoothed Cross Entropy Loss
 
 ---
 
